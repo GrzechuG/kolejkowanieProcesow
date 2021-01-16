@@ -10,7 +10,7 @@ def SJF(kolejka):
 ## Algorytm "Round Robin (wywłaczający)"
 def RR(kolejka, czas, kwant_czasu):
     aktualny_proces = kolejka[0]
-    print("Round robin:", czas, kwant_czasu)
+    #print("Round robin:", czas, kwant_czasu)
     if aktualny_proces.czas_wykonywania() % kwant_czasu == 0 and aktualny_proces.czas_wykonywania() > 0:
         del kolejka[0]
         kolejka.append(aktualny_proces)

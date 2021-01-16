@@ -1,17 +1,21 @@
 ## @package generator
 # Zajmuje się generowaniem oraz wczytywaniem danych do programu.
 
-import random
+import numpy.random as random
+import numpy as np
 from procesy import *
 from datetime import datetime
-
+global seed
 ## Funkcja wypisuje interaktywne menu na konsolę oraz obiera dane wejściowe
 def menu():
+    global seed
     lista_procesow = []
     kwant_czasu = None
     print("__MENU__")
     print("1. Wygeneruj nowy zestaw procesów")
     print("2. Załaduj zestaw procesów z pliku csv")
+    print("3. Wygeneruj na bazie zapisanego seed")
+    print("4. Przeprowadź badanie na dużym zestawie danych")
     opcja = int(input("opcja> "))
     if opcja == 1:
         ilość = int(input("Ile procesów wygenerować? > "))
@@ -28,6 +32,22 @@ def menu():
         except Exception as e:
             print("Wystąpił błąd podczas czytania procesów!", e)
             quit(-1)
+    elif opcja == 3:
+        ilość = int(input("Ile procesów wygenerować? > "))
+        seed = int(input("Podaj seed: > "))
+        random.seed(seed)
+        try:
+            lista_procesow = generuj_procesy(ilość, seed)
+        except Exception as e:
+            print("Wystąpił błąd podczas generowania procesów!", e)
+            quit(-1)
+
+    elif opcja == 4:
+        seed = int(input("Podaj seed dla generatora: > "))
+        kwant_czasu = int(input("Podaj kwant czasu:"))
+        random.seed(seed)
+        return [], "test", kwant_czasu;
+
     else:
         print("Opcja nie istnieje! Proszę wybrać właściwie!")
         menu()
@@ -57,9 +77,13 @@ def menu():
 
     return lista_procesow, algorytm, kwant_czasu
 
+##Ustawia seed na generatorze liczb losowych
+def setSeed(sd):
+    random.seed(sd)
 
 #Funkcja generuje procesy o losowych czasach przybycia oraz wykonywania
 def generuj_procesy(ilość, generuj_raport=True):
+
     lista_procesow = []
 
     if generuj_raport:

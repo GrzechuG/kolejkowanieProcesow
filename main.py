@@ -8,17 +8,20 @@ from datetime import datetime
 import generator as gen
 from procesor import *
 import copy
-
+global debug
 
 ## Funkcja main wywołująca menu z generatora oraz wywołująca pętle CPU.
 def main():
 
-    # porównaj_algorytmy()
-    #
-    # quit()
+
 
     lista_procesow, algorytm, kwant_czasu = gen.menu()
 
+    if algorytm == "test":
+     porównaj_algorytmy(kwant_czasu)
+     quit()
+
+    debug = True
     if algorytm == "Both":
 
         CPU1 = Procesor(copy.deepcopy(lista_procesow), "SJF")
@@ -44,6 +47,7 @@ def generuj_raport(lista_procesow, kolejnosc, algorytm):
 
     średni_czas_oczekiwania = 0
     for proces in lista_procesow:
+
         print("PID:", proces.PID, " Czas oczekiwania:", proces.czas_oczekiwania)
 
         średni_czas_oczekiwania += proces.czas_oczekiwania
@@ -59,20 +63,20 @@ def generuj_raport(lista_procesow, kolejnosc, algorytm):
 def policz_sredni_czas_oczekiwania(lista_procesow):
     średni_czas_oczekiwania = 0
     for proces in lista_procesow:
-        print("PID:", proces.PID, " Czas oczekiwania:", proces.czas_oczekiwania)
-
+        #print("PID:", proces.PID, " Czas oczekiwania:", proces.czas_oczekiwania)
         średni_czas_oczekiwania += proces.czas_oczekiwania
 
     średni_czas_oczekiwania /= len(lista_procesow)
     return średni_czas_oczekiwania
 
-
-def porównaj_algorytmy():
+## Funkcja która dokonuje porównania obu algorytmów
+def porównaj_algorytmy(kwant_czasu):
 
     teraz = datetime.now()
     dt_string = teraz.strftime("%d-%m-%Y_%H:%M:%S")
-    sprawozdanie = open("raports/raport_" + dt_string + ".csv", "a+")
-    sprawozdanie.write("procesy, SJF, RR \n")
+    nazwa_pliku = "raports/raport_" + dt_string + ".csv"
+    sprawozdanie = open(nazwa_pliku, "a+")
+    sprawozdanie.write(f"procesy, SJF, RR, q={kwant_czasu} \n")
     for i in range(3,100):
 
         srednia_SJF = 0
@@ -80,7 +84,7 @@ def porównaj_algorytmy():
         for j in range(0,20):
             lista_procesow = gen.generuj_procesy(i, generuj_raport=False)
             CPU1 = Procesor(copy.deepcopy(lista_procesow), "SJF")
-            CPU2 = Procesor(copy.deepcopy(lista_procesow), "RR")
+            CPU2 = Procesor(copy.deepcopy(lista_procesow), "RR", kwant_czasu)
 
             lista_procesow1, kolejnosc1 = CPU1.pętla()
             lista_procesow2, kolejnosc2 = CPU2.pętla()
@@ -90,10 +94,12 @@ def porównaj_algorytmy():
             srednia_SJF += sredni_czas_oczekiwania_SJF
             srednia_RR += sredni_czas_oczekiwania_RR
 
-        srednia_SJF /= 100
-        srednia_RR /= 100
+        srednia_SJF /= 20
+        srednia_RR /= 20
 
         sprawozdanie.write(f"{i}, {srednia_SJF}, {srednia_RR} \n")
+    print("Wygenerowano sprawozdanie:", nazwa_pliku)
+
 
 
 if __name__ == "__main__":
