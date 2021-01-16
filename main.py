@@ -13,11 +13,12 @@ import copy
 ## Funkcja main wywołująca menu z generatora oraz wywołująca pętle CPU.
 def main():
 
-    porównaj_algorytmy()
+    # porównaj_algorytmy()
+    #
+    # quit()
 
-    quit()
+    lista_procesow, algorytm, kwant_czasu = gen.menu()
 
-    lista_procesow, algorytm = gen.menu()
     if algorytm == "Both":
 
         CPU1 = Procesor(copy.deepcopy(lista_procesow), "SJF")
@@ -30,7 +31,7 @@ def main():
         generuj_raport(lista_procesow2, kolejnosc2, "RR")
 
     else:
-        CPU = Procesor(lista_procesow, algorytm)
+        CPU = Procesor(lista_procesow, algorytm, kwant_czasu)
         lista_procesow, kolejnosc = CPU.pętla()
         generuj_raport(lista_procesow, kolejnosc, algorytm)
 

@@ -8,6 +8,7 @@ from datetime import datetime
 ## Funkcja wypisuje interaktywne menu na konsolę oraz obiera dane wejściowe
 def menu():
     lista_procesow = []
+    kwant_czasu = None
     print("__MENU__")
     print("1. Wygeneruj nowy zestaw procesów")
     print("2. Załaduj zestaw procesów z pliku csv")
@@ -44,7 +45,9 @@ def menu():
         algorytm = "SJF"
     elif opcja == 2:
         print("Wybrano algorytm Round Robin!")
+        kwant_czasu = int(input("Podaj kwant czasu:"))
         algorytm = "RR"
+
     elif opcja == 3:
         print("Wybrano tryb porównywania!")
         algorytm = "Both"
@@ -52,7 +55,7 @@ def menu():
         print("Opcja nie istnieje! Proszę wybrać właściwie!")
         menu()
 
-    return lista_procesow, algorytm
+    return lista_procesow, algorytm, kwant_czasu
 
 
 #Funkcja generuje procesy o losowych czasach przybycia oraz wykonywania

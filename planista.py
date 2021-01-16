@@ -17,8 +17,6 @@ def RR(kolejka, czas, kwant_czasu):
         aktualny_proces.uśpij()
         kolejka[0].wybudź()
 
-
-
         # aktualny_proces.uśpij()
         # kolejka[0].wybudź()
 

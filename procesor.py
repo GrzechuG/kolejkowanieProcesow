@@ -11,7 +11,7 @@ class Procesor:
     ## Funkcja inicjalizująca procesor.
     # Jako argumenty bierze listę procesów i wybrany algorytm kolejkowania jako string,
     # który może przyjmować wartości "SJF" lub "RR"
-    def __init__(self, lista_procesow, algorytm_kolejkowania):
+    def __init__(self, lista_procesow, algorytm_kolejkowania, kwant_czasu = 4):
         self.czas = -1
         self.kolejka = []
         self.lista_procesow = lista_procesow
@@ -19,6 +19,7 @@ class Procesor:
         self.algorytm_kolejkowania = algorytm_kolejkowania
         self.aktualny_proces = None
         self.kolejnosc = []
+        self.kwant_czasu = kwant_czasu
 
     ##Funckja dokonuje sortowania kolejki wybranym algorytmem
     def kolejkowanie(self):
@@ -30,42 +31,47 @@ class Procesor:
             planista.SJF(self.kolejka)
 
         elif self.algorytm_kolejkowania == "RR":
-            planista.RR(self.kolejka, self.czas, 4)
+            planista.RR(self.kolejka, self.czas, self.kwant_czasu)
         else:
             print("Algorytm: ", self.algorytm_kolejkowania, " nie jest wspierany!")
 
     ##Funckja dokonuje aktualizacji kolejki (dodaje nowo uruchomione procesy)
+    #oraz wywołuje kolejkowanie
     def kolejka_aktualizacja(self):
         for proces in self.lista_procesow:
             if proces.czas_przybycia == self.czas:
                 print("Nowy proces: PID", proces.PID)
                 self.kolejka.append(proces)
 
-        self.kolejkowanie()
+        #Rozwiązuje BUG w RR:
+        if self.aktualny_proces is not None or self.algorytm_kolejkowania == "SJF":
+            self.kolejkowanie()
 
-        # print("Kolejka:")
-        # for k in self.kolejka:
-        #     print(k.PID)
+        print("Kolejka:")
+        for k in self.kolejka:
+            print(k.PID, end=" ")
+        print()
 
     ## Główna pętla procesora
     def pętla(self):
 
         while True:
             self.czas += 1
-            #print("Czas:", self.czas)
+            print("Czas:", self.czas)
 
             self.kolejka_aktualizacja()
 
             if not self.kolejka:
                 continue
 
-            if not self.aktualny_proces or self.aktualny_proces.uśpiony:
+            #Ustawiam aktualny proces
+            if not self.aktualny_proces or self.aktualny_proces.uśpiony or self.aktualny_proces.zakończony:
 
                 if self.aktualny_proces and self.aktualny_proces.uśpiony:
                     print("Wywłaszczenie procesu:", self.aktualny_proces.PID)
 
                 self.aktualny_proces = self.kolejka[0]
-                print("Aktualny proces:")
+                print("Aktualny proces PID:", self.aktualny_proces.PID)
                 # self.aktualny_proces.czas_oczekiwania = self.czas - self.aktualny_proces.czas_przybycia
                 # self.aktualny_proces.info()
                 self.kolejnosc.append(self.aktualny_proces.PID)
@@ -77,7 +83,7 @@ class Procesor:
                     proces.czas_oczekiwania += 1
 
             if self.aktualny_proces.zakończony:
-                print("Proces zakończony: ")
+                print("Proces zakończony PID:", self.aktualny_proces.PID)
                 # self.aktualny_proces.info()
 
                 self.kolejka.remove(self.aktualny_proces)
