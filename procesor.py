@@ -88,6 +88,9 @@ class Procesor:
             for proces in self.kolejka:
                 if proces.PID != self.aktualny_proces.PID:
                     proces.czas_oczekiwania += 1
+                    if not proces.byl_wywlaszczony:
+                        proces.czas_reakcji +=1
+
 
             if self.aktualny_proces.zakończony:
                 if self.debug:
@@ -100,7 +103,7 @@ class Procesor:
 
             if self.zakonczone_procesy == len(self.lista_procesow):
                 break
-
-        print(self.kolejnosc)
+        if self.debug:
+            print(self.kolejnosc)
 
         return self.lista_procesow, self.kolejnosc

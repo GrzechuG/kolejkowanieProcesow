@@ -1,5 +1,5 @@
 ## @package procesy
-#Klasa procesu. Inicjalizuje się ją podając:
+#Plik zawiera klasę procesu. Inicjalizuje się ją podając:
 #    - PID
 #    - czas_przybycia procesu
 #    - czas wykonania
@@ -18,11 +18,14 @@ class Proces:
         self.całkowity_czas_wykonywania = czas_wykonywania
         self.pozostały_czas_wykonywania = czas_wykonywania
         self.czas_oczekiwania = 0
+        self.czas_reakcji = 0
+        self.byl_wywlaszczony = False
         self.zakończony = False
         self.uśpiony = False
 
     ## Funkcja która przenosi proces w tryb uśpienia
     def uśpij(self):
+        self.byl_wywlaszczony = True
         self.uśpiony = True
 
     ## Funkcja która wybudza proces

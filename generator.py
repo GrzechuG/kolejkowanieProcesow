@@ -1,11 +1,14 @@
 ## @package generator
 # Zajmuje się generowaniem oraz wczytywaniem danych do programu.
 
-import numpy.random as random
+import random as random
 import numpy as np
 from procesy import *
 from datetime import datetime
 global seed
+global średni_czas_wykonywania
+global odchylenie_standardowe_wykonywania
+global czas_przybycia_config
 ## Funkcja wypisuje interaktywne menu na konsolę oraz obiera dane wejściowe
 def menu():
     global seed
@@ -35,9 +38,10 @@ def menu():
     elif opcja == 3:
         ilość = int(input("Ile procesów wygenerować? > "))
         seed = int(input("Podaj seed: > "))
+
         random.seed(seed)
         try:
-            lista_procesow = generuj_procesy(ilość, seed)
+            lista_procesow = generuj_procesy(ilość)
         except Exception as e:
             print("Wystąpił błąd podczas generowania procesów!", e)
             quit(-1)
@@ -45,8 +49,19 @@ def menu():
     elif opcja == 4:
         seed = int(input("Podaj seed dla generatora: > "))
         kwant_czasu = int(input("Podaj kwant czasu:"))
+        global średni_czas_wykonywania
+        global odchylenie_standardowe_wykonywania
+        średni_czas_wykonywania = int(input("Podaj średni czas wykonywania dla procesu:"))
+        odchylenie_standardowe_wykonywania = int(input("Podaj odchylenie standardowe czasu wykonywania dla procesu:"))
+        czas_przybycia_inp = input("Czy czas przybycia ma być losowy czy stały? L/S >")
+        global czas_przybycia_config
+        if czas_przybycia_inp == "S":
+            czas_przybycia_config = czas_przybycia_konfiguracja.STALY
+        else:
+            czas_przybycia_config = czas_przybycia_konfiguracja.LOSOWY
+
         random.seed(seed)
-        return [], "test", kwant_czasu;
+        return [], "test", kwant_czasu
 
     else:
         print("Opcja nie istnieje! Proszę wybrać właściwie!")
@@ -73,7 +88,7 @@ def menu():
         algorytm = "Both"
     else:
         print("Opcja nie istnieje! Proszę wybrać właściwie!")
-        menu()
+        return menu()
 
     return lista_procesow, algorytm, kwant_czasu
 
@@ -81,8 +96,17 @@ def menu():
 def setSeed(sd):
     random.seed(sd)
 
+class czas_przybycia_konfiguracja:
+    LOSOWY = 0
+    STALY = 1
 #Funkcja generuje procesy o losowych czasach przybycia oraz wykonywania
-def generuj_procesy(ilość, generuj_raport=True):
+def generuj_procesy(
+        ilość,
+        średnia_długość_wykonywania=10,
+        odchylenie_standardowe_czasu_wykonywania=5,
+        generuj_raport=True,
+        quitet=False,
+        czas_przybycia_config = czas_przybycia_konfiguracja.LOSOWY):
 
     lista_procesow = []
 
@@ -98,20 +122,32 @@ def generuj_procesy(ilość, generuj_raport=True):
     #Generowanie procesow o lowych czasach przybycia i wykonywania:
     for i in range(0, ilość):
         PID = i+1
-        print("P", PID, sep="")
+        if(czas_przybycia_config == czas_przybycia_konfiguracja.LOSOWY):
+            czas_przybycia = random.randint(0, 100)
+        else:
+            czas_przybycia = 0
 
-        czas_przybycia = random.randint(0, 100)
-        czas_wykonywania = random.randint(1, 10)
+        czas_wykonywania = abs(int(
+            random.normalvariate(
+                średnia_długość_wykonywania,
+                odchylenie_standardowe_czasu_wykonywania
+                                 )))+1
+
         p = Proces(PID, czas_przybycia, czas_wykonywania)
         lista_procesow.append(p)
-        print(p.info())
+
+        if not quitet:
+            print("P", PID, sep="")
+            print(p.info())
+            print()
 
         if generuj_raport:
             #Wpisanie do pliku danych o procesie:
             export_file.write(",".join([str(p.PID), str(p.czas_przybycia), str(p.pozostały_czas_wykonywania)]) + "\n")
-        print()
+
 
     return lista_procesow
+
 
 #Funkcja wczytuje procesu z pliku csv
 def załaduj_procesy(plik):
