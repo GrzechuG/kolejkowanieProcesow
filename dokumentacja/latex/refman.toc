@@ -1,0 +1,27 @@
+\@ifundefined {etoctocstyle}{\let \etoc@startlocaltoc \@gobble \let \etoc@settocdepth \@gobble \let \etoc@depthtag \@gobble \let \etoc@setlocaltop \@gobble }{}
+\babel@toc {polish}{}
+\contentsline {chapter}{\numberline {1}Indeks przestrzeni nazw}{1}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Lista przestrzeni nazw}{1}{section.1.1}%
+\contentsline {chapter}{\numberline {2}Indeks klas}{3}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Lista klas}{3}{section.2.1}%
+\contentsline {chapter}{\numberline {3}Dokumentacja przestrzeni nazw}{5}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Dokumentacja przestrzeni nazw generator}{5}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Opis szczegółowy}{5}{subsection.3.1.1}%
+\contentsline {section}{\numberline {3.2}Dokumentacja przestrzeni nazw main}{5}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Opis szczegółowy}{5}{subsection.3.2.1}%
+\contentsline {section}{\numberline {3.3}Dokumentacja przestrzeni nazw planista}{6}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}Opis szczegółowy}{6}{subsection.3.3.1}%
+\contentsline {section}{\numberline {3.4}Dokumentacja przestrzeni nazw procesor}{6}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}Opis szczegółowy}{6}{subsection.3.4.1}%
+\contentsline {section}{\numberline {3.5}Dokumentacja przestrzeni nazw procesy}{6}{section.3.5}%
+\contentsline {subsection}{\numberline {3.5.1}Opis szczegółowy}{6}{subsection.3.5.1}%
+\contentsline {chapter}{\numberline {4}Dokumentacja klas}{7}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Dokumentacja klasy procesy.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Proces}{7}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Opis szczegółowy}{7}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.2}Dokumentacja konstruktora i destruktora}{8}{subsection.4.1.2}%
+\contentsline {subsubsection}{\numberline {4.1.2.1}\_\_init\_\_()}{8}{subsubsection.4.1.2.1}%
+\contentsline {section}{\numberline {4.2}Dokumentacja klasy procesor.\discretionary {\mbox {\scriptsize $\hookleftarrow $}}{}{}Procesor}{8}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Opis szczegółowy}{9}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Dokumentacja konstruktora i destruktora}{9}{subsection.4.2.2}%
+\contentsline {subsubsection}{\numberline {4.2.2.1}\_\_init\_\_()}{9}{subsubsection.4.2.2.1}%
+\contentsline {chapter}{Indeks}{11}{section*.10}%
