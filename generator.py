@@ -39,7 +39,7 @@ def menu():
         ilość = int(input("Ile procesów wygenerować? > "))
         seed = int(input("Podaj seed: > "))
 
-        random.seed(seed)
+        setSeed(seed)
         try:
             lista_procesow = generuj_procesy(ilość)
         except Exception as e:
@@ -60,7 +60,7 @@ def menu():
         else:
             czas_przybycia_config = czas_przybycia_konfiguracja.LOSOWY
 
-        random.seed(seed)
+        setSeed(seed)
         return [], "test", kwant_czasu
 
     else:
@@ -94,6 +94,8 @@ def menu():
 
 ##Ustawia seed na generatorze liczb losowych
 def setSeed(sd):
+    global seed
+    seed = sd
     random.seed(sd)
 
 class czas_przybycia_konfiguracja:
@@ -113,7 +115,7 @@ def generuj_procesy(
     if generuj_raport:
         # Utworzenie pliku o nazwie powiazanej z aktualna data i czasem:
         teraz = datetime.now()
-        dt_string = teraz.strftime("%d-%m-%Y_%H:%M:%S")
+        dt_string = teraz.strftime("%d-%m-%Y_%H-%M-%S")
         export_file = open("data/procesy_" + dt_string + ".csv", "a+")
 
         #Wpisanie pierwszej linii jako "tytulow" kolumn:
