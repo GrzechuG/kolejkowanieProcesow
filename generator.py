@@ -65,7 +65,7 @@ def menu():
 
     else:
         print("Opcja nie istnieje! Proszę wybrać właściwie!")
-        menu()
+        return menu()
 
 
     algorytm = None
