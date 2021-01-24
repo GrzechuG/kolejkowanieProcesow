@@ -47,7 +47,7 @@ def generuj_raport(lista_procesow, kolejnosc, algorytm):
     print()
 
 
-
+##Funkcja licząca średni czas oczekiwania dla listy procesów po symulacji
 def policz_sredni_czas_oczekiwania(lista_procesow):
     średni_czas_oczekiwania = 0
     for proces in lista_procesow:
@@ -58,6 +58,7 @@ def policz_sredni_czas_oczekiwania(lista_procesow):
     return średni_czas_oczekiwania
 
 
+## Funkcja wyliczająca maksymalny czas reakcji dla listy procesów
 def max_czas_reakcji(lista_procesow):
     return max([proces.czas_reakcji for proces in lista_procesow])
 
@@ -141,7 +142,6 @@ def porównaj_algorytmy(kwant_czasu):
     google_nazwa = "raports/raport_google_" + dt_string + ".csv"
     open(google_nazwa, "w+").write(google)
     print("Wygenerowano sprawozdanie (wersja dla Arkusze Google):", google_nazwa)
-
 
 
 

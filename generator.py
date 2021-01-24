@@ -9,6 +9,8 @@ global seed
 global średni_czas_wykonywania
 global odchylenie_standardowe_wykonywania
 global czas_przybycia_config
+
+
 ## Funkcja wypisuje interaktywne menu na konsolę oraz obiera dane wejściowe
 def menu():
     global seed
@@ -98,10 +100,13 @@ def setSeed(sd):
     seed = sd
     random.seed(sd)
 
+##Enum do wyboru czasu brzybycia STALY/LOSOWY
 class czas_przybycia_konfiguracja:
     LOSOWY = 0
     STALY = 1
-#Funkcja generuje procesy o losowych czasach przybycia oraz wykonywania
+
+
+##Funkcja generuje procesy o losowych czasach przybycia oraz wykonywania
 def generuj_procesy(
         ilość,
         średnia_długość_wykonywania=10,
@@ -151,7 +156,7 @@ def generuj_procesy(
     return lista_procesow
 
 
-#Funkcja wczytuje procesu z pliku csv
+## Funkcja wczytuje procesu z pliku csv
 def załaduj_procesy(plik):
     lista_procesow = []
 
